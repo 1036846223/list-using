@@ -1,0 +1,355 @@
+package try_;
+import  java.util.Stack;
+//单链表的建立添加，更新，删除
+
+public class SingleList {
+//创建单链表+测试
+	public static void main(String[] args) {
+		// 创建节点
+		HeroNode hero1= new HeroNode(1,"x","x1");
+		HeroNode hero2= new HeroNode(2,"y","y1");
+		HeroNode hero3= new HeroNode(3,"z","z1");
+		HeroNode hero4= new HeroNode(4,"c","c1");
+//		HeroNode hero5= new HeroNode(2,"2","2");
+//		辅助最后一个用例
+		HeroNode hero6= new HeroNode(6,"q","q1");
+		HeroNode hero7= new HeroNode(7,"w","w1");
+		HeroNode hero8= new HeroNode(8,"e","e1");
+		HeroNode hero9= new HeroNode(9,"r","r1");
+		
+		SingleLinkedList singlelinkedlist= new SingleLinkedList();
+		SingleLinkedList singlelinkedlist2= new SingleLinkedList();
+//		singlelinkedlist.add(hero1);
+//		singlelinkedlist.add(hero4);
+//		singlelinkedlist.add(hero3);
+//		singlelinkedlist.add(hero2);
+//
+//		singlelinkedlist2.add(hero7);
+//		singlelinkedlist2.add(hero9);
+//		singlelinkedlist2.add(hero8);
+//		singlelinkedlist2.add(hero6);
+//		
+		singlelinkedlist.addbyorder(hero1);
+		singlelinkedlist.addbyorder(hero4);
+		singlelinkedlist.addbyorder(hero2);
+		singlelinkedlist.addbyorder(hero3);
+		
+//		辅助最后一个用例
+		singlelinkedlist2.addbyorder(hero7);
+		singlelinkedlist2.addbyorder(hero9);
+		singlelinkedlist2.addbyorder(hero8);
+		singlelinkedlist2.addbyorder(hero6);
+		
+		
+//		SingleLinkedList.sumorderlist(singlelinkedlist.getHead(),singlelinkedlist2.getHead()); //q5-两个有序链表合并成为一个有序链表
+//		singlelinkedlist.list();
+//		
+//		singlelinkedlist.list();
+//		singlelinkedlist.listupdate(hero5);
+//		System.out.println("更新后的链表");
+//		singlelinkedlist.list();
+////		
+//		singlelinkedlist.dellistno(3);
+//		singlelinkedlist.list();
+////		singlelinkedlist.sums();有效节点个数
+//		SingleLinkedList.getlength(singlelinkedlist.getHead());//有效节点个数
+//		SingleLinkedList.findlastIndexNode(singlelinkedlist.getHead(),3);//查找单链表的倒数第k个元素
+//		SingleLinkedList.reverselist(singlelinkedlist.getHead());
+//		singlelinkedlist.list();
+//		SingleLinkedList.printlist(singlelinkedlist.getHead());
+//		singlelinkedlist.list();
+		
+}
+}
+
+class HeroNode{
+	public int no;
+	public String name;
+	public String Nickname;
+	public HeroNode next;// 指向下一个节点
+//	构造器  当你new一个对象时，就会调用构造器
+	public HeroNode(int no,String name,String Nickname){
+		this.no=no;
+		this.name=name;
+		this.Nickname=Nickname;
+	}
+//	重写toString 方法
+	@Override
+	public String toString() {
+		return "HeroNode [no=" + no + ", name=" + name + ", Nickname=" + Nickname + "]";
+//		return "HeroNode [no=" + no + ", name=" + name + ", Nickname=" + Nickname + ", next=" + next + "]";
+	}
+}
+//
+
+
+class SingleLinkedList{
+	private HeroNode head=new HeroNode(0,"","");
+	
+//	返回头结点
+	public HeroNode getHead(){
+		return head;
+	}
+//	增加
+	public void add(HeroNode heronode){
+		HeroNode temp = head;
+    //寻找链表末尾
+		while (true){
+			if (temp.next == null){
+				break;
+			}
+			temp=temp.next;
+		}
+		temp.next=heronode;
+	}
+//	生成
+	public void list(){
+//		判断链表是否为空
+		if (head.next ==null){
+			System.out.println("链表为空");
+			return;
+		}
+		HeroNode temp = head.next;
+		
+		while(true){
+			if (temp ==null){
+//				System.out.println("链表为空");
+				break;
+			}
+			System.out.println(temp);
+			temp=temp.next;
+		}
+	}
+//	从小到大的次序插入链表
+	public void addbyorder(HeroNode heronode){
+		HeroNode temp = head;
+		boolean flag=true;
+		while(true){
+			if (temp.next==null){
+				break;
+			}
+			if(heronode.no == temp.next.no){
+				flag=false;
+				break;
+			}
+			if(temp.next.no > heronode.no){
+				break;
+			}
+			temp=temp.next;
+		}
+		if (flag){
+			heronode.next=temp.next;
+			temp.next=heronode;
+		}else{
+			System.out.println("具有同类型节点");
+		}
+		
+	}
+	
+//	链表的修改
+	public void listupdate(HeroNode nowNode){
+		if(head.next==null){
+			System.out.println("链表为空");
+		}
+		HeroNode temp = head.next;
+		while(true){
+			if (temp==null){
+				System.out.println("没有找到此序号的值"+nowNode.no);
+				break;
+			}
+			if(temp.no == nowNode.no){
+				temp.name= nowNode.name;
+				temp.Nickname= nowNode.Nickname;
+				break;
+			}
+			temp=temp.next;
+		}
+	}
+	
+	public void dellistno(int n){
+		if(head.next==null){
+			System.out.println("链表为空");
+		}
+		boolean flag =false;
+		HeroNode temp = head;
+		while(true){
+			if (temp.next==null){
+				break;
+			}
+			if(temp.next.no == n){
+				flag=true;
+				break;
+			}
+			temp=temp.next;
+		}
+		if (flag){
+			temp.next=temp.next.next;//记得画图示意
+		}else{
+			System.out.println("没有找到这个需要删除的元素"+n);
+		}
+		
+	}
+	
+//	单链表有效节点个数解法1
+    public static  int sums(HeroNode head){
+    	HeroNode temp=head.next;
+    	if (temp==null){
+    		System.out.printf("空,sum=0");
+    		return 0;
+		}else{
+			int sum=0;
+			while(true){
+				if (temp==null){
+					return sum;
+				}
+				sum=sum+1;
+				temp=temp.next;
+			}
+//			return sum;
+//			System.out.printf("sum="+sum);
+		}
+//		return sum;
+	}
+    
+//   单链表有效节点个数解法2
+    public static int getlength(HeroNode head){
+//    	HeroNode temp=head.next;
+    	if(head.next==null){
+    		return 0;
+    	}
+    	HeroNode temp=head.next;
+    	int length=0;
+    	while(true){
+    		if(temp==null){
+//    			System.out.printf("length="+length);
+    			return length;
+    		}
+    		length++;
+    		temp=temp.next;
+    	}
+    } 
+    
+//   查找单链表中的倒数第k个节点并返回
+    public static HeroNode findlastIndexNode(HeroNode head,int Index){
+    	if (head.next ==null){
+    		System.out.printf("链表为空");
+    		return null;
+    	}
+    	int length=getlength(head);
+    	if (Index<0|| Index > length){
+    		System.out.printf("Index输入错误"+Index);
+			return null;
+		}
+    	HeroNode temp=head.next;
+    	for (int i=0;i<length-Index;i++){
+    		temp=temp.next;
+    	}
+    	System.out.printf("倒数第"+Index+"个元素是："+"\n");
+    	System.out.println(temp);
+    	return temp;
+    }
+    
+//    单链表反转
+    public static void reverselist(HeroNode head){
+    	System.out.printf("输出翻转链表\n");
+    	if(head.next==null){
+    		System.out.printf("null");
+    	}else{
+    		HeroNode headli=new HeroNode(0,"","");
+        	HeroNode temp=head.next;
+        	HeroNode x=null;//辅助指针变量
+        	while(true){
+        		if (temp==null){
+        			break;
+        		}
+//        		核心语句
+        		x=temp.next;
+        		temp.next=headli.next;
+        		headli.next=temp;
+        		temp=x;
+        	}
+        	head.next=headli.next;
+    	}
+    }
+    
+//    从尾到头打印链表  逆序打印
+//    借用栈
+    public static void  printlist(HeroNode head){
+    	if (head.next==null){
+    		return;
+    	}
+    	System.out.printf("逆序打印\n");
+    	HeroNode temp = head.next;
+    	Stack<HeroNode> stack = new Stack<HeroNode>();
+    	while(true){
+    		if (temp==null){
+    			break;
+    		}
+    		stack.push(temp);
+    		temp=temp.next;
+    	}
+    	while(stack.size()>0){
+    		System.out.println(stack.pop());
+    	}
+    }
+
+//    合并两个有序单链表，合并之后的链表依然有序
+//    以no作为排序依据，顺序排列函数已有，只需要写出比较函数即可
+//	最大的括号
+    public static HeroNode sumorderlist(HeroNode head1,HeroNode head2){
+    	SingleLinkedList sumorderlist= new SingleLinkedList();
+//    	HeroNode tempsum = sumorderlist.head;
+//    	得到两个链表的长度
+    	int sums1=sums(head1);
+    	HeroNode temp1=head1.next;
+    	int sums2=sums(head2);
+    	HeroNode temp2=head2.next;
+    	if(sums1 ==0 ){
+    		System.out.printf("链表1为空");
+//    		return null;
+    		if(sums2!= 0){
+//    			list(head2);
+    			return head2;//返回2的头地址
+    		}
+    	}
+    	if(sums2 ==0 ){
+    		System.out.printf("链表2为空");
+    		if(sums1 != 0){
+    			return head1;//返回1的头地址
+    		}
+//    		return null;
+    		if(sums1==0){
+    			return null;
+    		}
+    	}
+//		boolean flag=true;
+//		HeroNode temp12=null;
+		HeroNode temp21=temp2.next;
+		while(true){
+			HeroNode temp12=head1;
+
+			while(true){
+				if(temp2.no <= temp1.no){
+					break;
+				}
+				temp12=temp1;
+				temp1=temp1.next;
+				if(temp1==null){
+					break;
+				}	
+			}
+			temp2.next=temp1;
+			temp12.next=temp2;
+			temp2=temp21;
+			if(temp2==null){
+				break;
+			}
+			temp21=temp21.next;// 注意temp21为空，当它为空时，temp2还需要再运行一次，但null没有next方法
+			temp1=head1.next;
+//			temp2=temp21;
+		}
+		sumorderlist.head.next=head1.next;
+    	return head1;
+    }
+}
+
